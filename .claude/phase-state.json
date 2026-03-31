@@ -4,9 +4,17 @@
     "phases": [
       {
         "phase": 1,
-        "status": "COMPLETE",
+        "status": "CHECKPOINTED",
         "started_at": "2026-03-30T20:00:00Z",
-        "completed_at": "2026-03-30T20:15:00Z",
+        "completed_at": "2026-03-30T20:20:00Z",
+        "checkpoint": {
+          "lint_passed": true,
+          "build_passed": true,
+          "codex_review": {
+            "status": "skipped",
+            "reason": "foundational scaffolding phase"
+          }
+        },
         "tasks": {
           "1.1.A": {"status": "COMPLETE"},
           "1.1.B": {"status": "COMPLETE"},
