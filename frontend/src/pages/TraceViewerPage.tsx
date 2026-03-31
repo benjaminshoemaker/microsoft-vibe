@@ -1,26 +1,50 @@
 import { useParams, Link } from 'react-router-dom'
-import { getRunDetail } from '../data/mock'
+import { useState, useEffect } from 'react'
+import { fetchRunDetail } from '../api/client'
 import { TraceTimeline } from '../components/TraceTimeline'
 import { StatusBadge } from '../components/StatusBadge'
 import { formatDuration, formatTimestamp } from '../lib/utils'
 import { ArrowLeft, Clock, Layers, Calendar } from 'lucide-react'
+import type { Run, TraceEvent } from '../types'
 
 export function TraceViewerPage() {
   const { runId } = useParams<{ runId: string }>()
-  const detail = runId ? getRunDetail(runId) : null
+  const [run, setRun] = useState<Run | null>(null)
+  const [events, setEvents] = useState<TraceEvent[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  if (!detail) {
+  useEffect(() => {
+    if (!runId) return
+    setLoading(true)
+    fetchRunDetail(runId)
+      .then(data => {
+        const d = data as { run: Run; events: TraceEvent[] }
+        setRun(d.run)
+        setEvents(d.events)
+      })
+      .catch(e => setError(e instanceof Error ? e.message : 'Failed to load run'))
+      .finally(() => setLoading(false))
+  }, [runId])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="text-[var(--color-text-muted)]">Loading trace...</div>
+      </div>
+    )
+  }
+
+  if (error || !run) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <p className="text-lg text-[var(--color-text-muted)]">Run not found</p>
+        <p className="text-lg text-[var(--color-text-muted)]">{error || 'Run not found'}</p>
         <Link to="/" className="mt-3 text-sm text-[var(--color-primary)] hover:underline">
           Back to dashboard
         </Link>
       </div>
     )
   }
-
-  const { run, events } = detail
 
   return (
     <div className="space-y-5">
@@ -42,7 +66,7 @@ export function TraceViewerPage() {
             <p className="text-xs text-[var(--color-text-dim)] mt-1 font-mono">{run.id}</p>
           </div>
           {run.metadata && Object.keys(run.metadata).length > 0 && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {Object.entries(run.metadata).map(([key, value]) => (
                 <span key={key} className="rounded bg-[var(--color-bg)] px-2 py-0.5 text-xs text-[var(--color-text-muted)]">
                   {key}: {String(value)}
@@ -76,7 +100,13 @@ export function TraceViewerPage() {
 
       <div>
         <h2 className="text-sm font-semibold text-[var(--color-text-muted)] mb-3 uppercase tracking-wider">Execution Trace</h2>
-        <TraceTimeline events={events} />
+        {events.length > 0 ? (
+          <TraceTimeline events={events} />
+        ) : (
+          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center text-[var(--color-text-muted)]">
+            No trace events found for this run
+          </div>
+        )}
       </div>
     </div>
   )

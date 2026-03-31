@@ -35,11 +35,7 @@ export function Layout() {
               <NavItem to="/alerts" icon={Bell} label="Alerts" />
             </nav>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-[var(--color-success-bg)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-success)] border border-[var(--color-success)]/20">
-              Mock Data
-            </span>
-          </div>
+          <div className="flex items-center gap-2" />
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-6 py-6">
