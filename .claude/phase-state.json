@@ -1,26 +1,26 @@
 {
   "main": {
-    "current_phase": 1,
+    "current_phase": 2,
     "phases": [
       {
         "phase": 1,
         "status": "CHECKPOINTED",
         "started_at": "2026-03-30T20:00:00Z",
-        "completed_at": "2026-03-30T20:20:00Z",
+        "completed_at": "2026-03-30T20:20:00Z"
+      },
+      {
+        "phase": 2,
+        "status": "CHECKPOINTED",
+        "started_at": "2026-03-30T20:25:00Z",
+        "completed_at": "2026-03-30T20:40:00Z",
         "checkpoint": {
-          "lint_passed": true,
-          "build_passed": true,
-          "codex_review": {
-            "status": "skipped",
-            "reason": "foundational scaffolding phase"
-          }
+          "tests_passed": true,
+          "build_passed": true
         },
         "tasks": {
-          "1.1.A": {"status": "COMPLETE"},
-          "1.1.B": {"status": "COMPLETE"},
-          "1.1.C": {"status": "COMPLETE"},
-          "1.2.A": {"status": "COMPLETE"},
-          "1.2.B": {"status": "COMPLETE"}
+          "2.1.A": {"status": "COMPLETE"},
+          "2.1.B": {"status": "COMPLETE"},
+          "2.2.A": {"status": "COMPLETE"}
         }
       }
     ]
