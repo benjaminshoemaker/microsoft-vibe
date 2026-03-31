@@ -4,7 +4,7 @@ from collections.abc import AsyncIterator
 from fastapi import FastAPI
 
 from app.database import engine
-from app.routers import ingest
+from app.routers import ingest, runs, agents
 
 
 @asynccontextmanager
@@ -21,6 +21,8 @@ app = FastAPI(
 )
 
 app.include_router(ingest.router)
+app.include_router(runs.router)
+app.include_router(agents.router)
 
 
 @app.get("/health")
