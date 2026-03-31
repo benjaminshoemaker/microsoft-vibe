@@ -12,7 +12,7 @@ from sqlalchemy import (
     Text,
     Boolean,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import JSON, Uuid
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 
@@ -32,7 +32,7 @@ class Agent(Base):
 class Run(Base):
     __tablename__ = "runs"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4)
     agent_name = Column(Text, nullable=False, index=True)
     status = Column(Text, nullable=False, default="running")  # running, success, failure, error
     started_at = Column(DateTime(timezone=True), nullable=False)
@@ -40,7 +40,7 @@ class Run(Base):
     duration_ms = Column(Integer, nullable=True)
     step_count = Column(Integer, nullable=False, default=0)
     error_message = Column(Text, nullable=True)
-    metadata_ = Column("metadata", JSONB, nullable=False, default=dict)
+    metadata_ = Column("metadata", JSON, nullable=False, default=dict)
     search_vector = Column(Text, nullable=True)  # tsvector populated via trigger/update
     created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.utcnow)
 
@@ -56,19 +56,19 @@ class Run(Base):
 class Event(Base):
     __tablename__ = "events"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    run_id = Column(UUID(as_uuid=True), ForeignKey("runs.id", ondelete="CASCADE"), nullable=False)
-    step_id = Column(UUID(as_uuid=True), unique=True, nullable=False, default=uuid.uuid4)
-    parent_step_id = Column(UUID(as_uuid=True), nullable=True)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4)
+    run_id = Column(Uuid, ForeignKey("runs.id", ondelete="CASCADE"), nullable=False)
+    step_id = Column(Uuid, unique=True, nullable=False, default=uuid.uuid4)
+    parent_step_id = Column(Uuid, nullable=True)
     agent_name = Column(Text, nullable=False)
     step_type = Column(Text, nullable=False)  # tool_call, llm_call, decision, error, run_start, run_end
     step_name = Column(Text, nullable=True)
-    input = Column(JSONB, nullable=False, default=dict)
-    output = Column(JSONB, nullable=False, default=dict)
+    input = Column(JSON, nullable=False, default=dict)
+    output = Column(JSON, nullable=False, default=dict)
     status = Column(Text, nullable=False)  # success, failure, error
     error_message = Column(Text, nullable=True)
     timestamp = Column(DateTime(timezone=True), nullable=False)
-    metadata_ = Column("metadata", JSONB, nullable=False, default=dict)
+    metadata_ = Column("metadata", JSON, nullable=False, default=dict)
     search_vector = Column(Text, nullable=True)  # tsvector populated via trigger/update
     created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.utcnow)
 
