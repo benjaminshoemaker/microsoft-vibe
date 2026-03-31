@@ -38,11 +38,12 @@ export function AlertRuleForm({ agents, onSubmit, onCancel }: AlertRuleFormProps
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Agent</label>
+            <label htmlFor="rule-agent" className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Agent</label>
             <select
+              id="rule-agent"
               value={agentName}
               onChange={e => setAgentName(e.target.value)}
-              className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)]"
+              className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             >
               <option value="">All agents</option>
               {agents.map(a => (
@@ -52,11 +53,12 @@ export function AlertRuleForm({ agents, onSubmit, onCancel }: AlertRuleFormProps
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Metric</label>
+            <label htmlFor="rule-metric" className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Metric</label>
             <select
+              id="rule-metric"
               value={metric}
               onChange={e => setMetric(e.target.value as AlertMetric)}
-              className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)]"
+              className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             >
               <option value="failure_rate">Failure Rate (%)</option>
               <option value="p95_latency">P95 Latency (ms)</option>
@@ -68,34 +70,37 @@ export function AlertRuleForm({ agents, onSubmit, onCancel }: AlertRuleFormProps
         <div className="grid grid-cols-2 gap-4">
           {metric === 'stuck_run' ? (
             <div>
-              <label className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Multiplier (x avg duration)</label>
+              <label htmlFor="rule-multiplier" className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Multiplier (x avg duration)</label>
               <input
+                id="rule-multiplier"
                 type="number"
                 value={multiplier}
                 onChange={e => setMultiplier(e.target.value)}
                 min="1"
                 step="0.5"
-                className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)]"
+                className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               />
             </div>
           ) : (
             <div>
-              <label className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">
+              <label htmlFor="rule-threshold" className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">
                 Threshold {metric === 'failure_rate' ? '(%)' : '(ms)'}
               </label>
               <input
+                id="rule-threshold"
                 type="number"
                 value={threshold}
                 onChange={e => setThreshold(e.target.value)}
                 min="0"
-                className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)]"
+                className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               />
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Window (minutes)</label>
+            <label htmlFor="rule-window" className="block text-xs font-medium text-[var(--color-text-muted)] mb-1">Window (minutes)</label>
             <input
+              id="rule-window"
               type="number"
               value={window}
               onChange={e => setWindow(e.target.value)}

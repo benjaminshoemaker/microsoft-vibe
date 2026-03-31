@@ -19,6 +19,12 @@
   --color-warning-bg: rgba(245, 158, 11, 0.1);
   --color-running: #3b82f6;
   --color-running-bg: rgba(59, 130, 246, 0.1);
+  --color-step-tool: #60a5fa;
+  --color-step-llm: #c084fc;
+  --color-step-decision: #fbbf24;
+  --color-step-error: #ef4444;
+  --color-step-start: #4ade80;
+  --color-step-end: #a1a1aa;
 }
 
 * {

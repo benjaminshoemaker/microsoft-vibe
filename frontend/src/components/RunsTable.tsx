@@ -105,8 +105,12 @@ export function RunsTable({ runs }: { runs: Run[] }) {
             <tr
               key={row.id}
               data-status={row.original.status}
+              tabIndex={0}
+              role="link"
+              aria-label={`View trace for ${row.original.agent_name} run`}
               onClick={() => navigate(`/runs/${row.original.id}`)}
-              className={`border-b border-[var(--color-border-subtle)] cursor-pointer transition-colors hover:bg-[var(--color-surface-hover)] ${
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/runs/${row.original.id}`) } }}
+              className={`border-b border-[var(--color-border-subtle)] cursor-pointer transition-colors hover:bg-[var(--color-surface-hover)] focus-visible:bg-[var(--color-surface-hover)] focus-visible:outline-none ${
                 row.original.status === 'failure' || row.original.status === 'error'
                   ? 'bg-[var(--color-error-bg)]/30'
                   : ''

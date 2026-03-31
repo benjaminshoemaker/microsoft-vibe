@@ -6,12 +6,12 @@ import { ChevronRight, ChevronDown, Wrench, Brain, GitBranch, AlertCircle } from
 import { cn } from '../lib/utils'
 
 const stepTypeConfig: Record<string, { icon: React.ComponentType<{ className?: string }>; label: string; color: string }> = {
-  tool_call: { icon: Wrench, label: 'Tool Call', color: 'text-blue-400' },
-  llm_call: { icon: Brain, label: 'LLM Call', color: 'text-purple-400' },
-  decision: { icon: GitBranch, label: 'Decision', color: 'text-amber-400' },
-  error: { icon: AlertCircle, label: 'Error', color: 'text-red-400' },
-  run_start: { icon: ChevronRight, label: 'Start', color: 'text-green-400' },
-  run_end: { icon: ChevronRight, label: 'End', color: 'text-gray-400' },
+  tool_call: { icon: Wrench, label: 'Tool Call', color: 'text-[var(--color-step-tool)]' },
+  llm_call: { icon: Brain, label: 'LLM Call', color: 'text-[var(--color-step-llm)]' },
+  decision: { icon: GitBranch, label: 'Decision', color: 'text-[var(--color-step-decision)]' },
+  error: { icon: AlertCircle, label: 'Error', color: 'text-[var(--color-step-error)]' },
+  run_start: { icon: ChevronRight, label: 'Start', color: 'text-[var(--color-step-start)]' },
+  run_end: { icon: ChevronRight, label: 'End', color: 'text-[var(--color-step-end)]' },
 }
 
 function JsonBlock({ data, label }: { data: Record<string, unknown>; label: string }) {
@@ -51,14 +51,19 @@ export function TraceStep({ event, depth = 0 }: { event: TraceEvent; depth?: num
   return (
     <div data-testid="trace-step" data-status={event.status}>
       <div
+        role={hasDetails ? 'button' : undefined}
+        tabIndex={hasDetails ? 0 : undefined}
+        aria-expanded={hasDetails ? isOpen : undefined}
+        aria-label={hasDetails ? `${config.label}: ${event.step_name}` : undefined}
         className={cn(
           'flex items-start gap-3 rounded-lg border px-4 py-3 transition-colors',
           isError
             ? 'border-[var(--color-error)]/30 bg-[var(--color-error-bg)]/50'
             : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)]',
-          hasDetails && 'cursor-pointer',
+          hasDetails && 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--color-bg)]',
         )}
         onClick={() => hasDetails && setIsOpen(!isOpen)}
+        onKeyDown={e => { if (hasDetails && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setIsOpen(!isOpen) } }}
       >
         <div className="flex items-center gap-2 shrink-0 pt-0.5">
           {hasDetails ? (

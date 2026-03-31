@@ -65,8 +65,11 @@ export function AlertRulesList({ rules, onToggle, onDelete }: AlertRulesListProp
               <td className="px-4 py-3">
                 <button
                   data-testid="rule-toggle"
+                  role="switch"
+                  aria-checked={rule.enabled}
+                  aria-label={`${rule.enabled ? 'Disable' : 'Enable'} alert rule for ${rule.agent_name ?? 'all agents'}`}
                   onClick={() => onToggle(rule.id)}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface)] ${
                     rule.enabled ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-border)]'
                   }`}
                 >
