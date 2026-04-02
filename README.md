@@ -2,6 +2,23 @@
 
 Production observability for AI agents. Dashboard with run overview, trace viewer, search/filtering, and alerts.
 
+## Screenshots
+
+### Dashboard
+Run overview with stats, filters, and sortable table. Failed runs highlighted in red.
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Trace Viewer
+Drill into any run to see the full execution timeline with nested steps, inputs/outputs, and error details.
+
+![Trace Viewer](docs/screenshots/trace-viewer.png)
+
+### Alerts
+Configure alert rules per agent (failure rate, P95 latency, stuck run detection) with email notifications.
+
+![Alerts](docs/screenshots/alerts.png)
+
 ## Quick Start
 
 ```bash
@@ -65,9 +82,9 @@ curl -X POST http://localhost:8000/api/v1/ingest \
 ## Architecture
 
 ```
-Frontend (React/TS) → Nginx :80 → Backend (FastAPI) :8000 → PostgreSQL :5432
-                                        ↑
-                     APScheduler: alerts (1m), retention (daily)
+Frontend (React/TS) --> Nginx :80 --> Backend (FastAPI) :8000 --> PostgreSQL :5432
+                                           |
+                        APScheduler: alerts (1m), retention (daily)
 ```
 
 ## API Endpoints
